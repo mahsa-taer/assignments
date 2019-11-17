@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        .button_class {
+            position: static;
+            margin: 4px;
+        }
+
+        #display {
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <p id="input">How many buttons to create?</p>
+    <input type="text" id="text_area">
+    <input type="button" id="button_area" value="GO!">
+    <div id="display">
+    </div>
+
+    <script>
+
+        let user_input = document.getElementById('text_area');
+        let btn = document.getElementById('button_area');
+        let paragraph = document.getElementById('input');
+        let order = [];
+        let counter = 0;
+
+        function Button(height, width, quantity) {
+            this.btn_1 = document.createElement('BUTTON');
+            this.btn_1.style.height = height;
+            this.btn_1.style.width = width;
+            this.btn_1.className = 'button_class';
+            this.btn_1.style.background = 'rgb(' + Math.random() * 256 + ', ' + Math.random() * 256 + ', ' + Math.random() * 256 + ')';
+
+            this.position = function () {
+                this.btn_1.style.position = 'absolute';
+                this.btn_1.width = window.innerWidth - 10 * 16;
+                this.btn_1.height = window.innerHeight - 5 * 16;
+                this.btn_1.style.left = Math.random() * this.btn_1.width + 'px';
+                this.btn_1.style.top = Math.random() * this.btn_1.height + 'px';
+                this.btn_1.style.margin = 0;
+            };
+
+            document.body.appendChild(this.btn_1);
+        }
+
+        function get_number() {
+            if ((user_input.value < 5) || (user_input > 100)) {
+                document.write('Wrong number. Please Enter a Number Between 5 and 100.');
+            }
+            else {
+                btn.onclick = '';
+                for (let i = 0; i < user_input.value; i++) {
+                    paragraph.style.display = 'none';
+                    user_input.style.display = 'none';
+                    btn.style.display = 'none';
+                    order.push(new Button('5em', '10em'));
+                    setTimeout(function () { check(i) }, user_input.value * 1000);
+                }
+            }
+
+        }
+
+        function check(i) {
+            order[i].position();
+            order[i].btn_1.onclick = function () { check_onclick(i) };
+        }
+
+        function check_onclick(i) {
+            if (order[counter] == order[i]) {
+                if (order[order.length - 1] == order[i]) {
+                    alert('Excellent memory!');
+                }
+                else {
+                    counter++;
+                }
+            }
+            else {
+                alert('Wrong order!');
+            }
+        }
+
+        btn.onclick = get_number;
+    </script>
+</body>
+
+</html>
